@@ -35,6 +35,11 @@ type InsertTDP struct {
 	Identifier    string `json:"Identifier"`
 	DataHash      string
 }
+type SubmitXDR struct {
+	XDR string
+}
+
+
 
 type InsertGenesisStruct struct {
 	Type       string `json:"Type"`

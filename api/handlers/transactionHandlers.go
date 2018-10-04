@@ -60,32 +60,32 @@ func Transaction(w http.ResponseWriter, r *http.Request) {
 		// 		Identifiers:       PObj.Identifier,
 		// 		Type:              PObj.Type}
 		// 	json.NewEncoder(w).Encode(result)
-		case "1":
-			var GObj apiModel.InsertGenesisStruct
-			err := json.NewDecoder(r.Body).Decode(&GObj)
-			if err != nil {
-				w.WriteHeader(http.StatusBadRequest)
-				json.NewEncoder(w).Encode("Error while Decoding the body")
-				fmt.Println(err)
-				return
-			}
-			fmt.Println(GObj)
-			result := model.InsertGenesisResponse{}
+		// case "1":
+		// 	var GObj apiModel.InsertGenesisStruct
+		// 	err := json.NewDecoder(r.Body).Decode(&GObj)
+		// 	if err != nil {
+		// 		w.WriteHeader(http.StatusBadRequest)
+		// 		json.NewEncoder(w).Encode("Error while Decoding the body")
+		// 		fmt.Println(err)
+		// 		return
+		// 	}
+		// 	fmt.Println(GObj)
+		// 	result := model.InsertGenesisResponse{}
 
-			display := &builder.AbstractGenesisInsert{InsertGenesisStruct: GObj}
-			result = display.GenesisInsert()
+		// 	display := &builder.AbstractGenesisInsert{InsertGenesisStruct: GObj}
+		// 	result = display.GenesisInsert()
 
-			w.WriteHeader(result.Error.Code)
-			result2 := apiModel.GenesisSuccess{
-				Message:     result.Error.Message,
-				ProfileTxn:  result.ProfileTxn,
-				GenesisTxn:  result.GenesisTxn,
-				Identifiers: GObj.Identifier,
-				Type:        GObj.Type}
-			json.NewEncoder(w).Encode(result2)
+		// 	w.WriteHeader(result.Error.Code)
+		// 	result2 := apiModel.GenesisSuccess{
+		// 		Message:     result.Error.Message,
+		// 		ProfileTxn:  result.ProfileTxn,
+		// 		GenesisTxn:  result.GenesisTxn,
+		// 		Identifiers: GObj.Identifier,
+		// 		Type:        GObj.Type}
+		// 	json.NewEncoder(w).Encode(result2)
 
-		case "2":
-			var TDP apiModel.InsertTDP
+		case "0":
+			var TDP apiModel.SubmitXDR
 			err := json.NewDecoder(r.Body).Decode(&TDP)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
@@ -94,19 +94,15 @@ func Transaction(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			fmt.Println(TDP)
-			response := model.InsertDataResponse{}
+			response := model.SubmitXDRResponse{}
 
 			// display := &builder.AbstractTDPInsert{Hash: TObj.Data, InsertType: TType, PreviousTXNID: TObj.PreviousTXNID[0], ProfileId: TObj.ProfileID[0]}
-			display := &builder.AbstractTDPInsert{InsertTDP: TDP}
-			response = display.TDPInsert()
+			display := &builder.AbstractSubmitXDR{SubmitXDR: TDP}
+			response = display.XDRInsert()
 
 			w.WriteHeader(response.Error.Code)
-			result := apiModel.InsertSuccess{
-				Message:   response.Error.Message,
-				TxNHash:   response.TDPID,
-				ProfileID: response.ProfileID,
-				Type:      TDP.Type}
-			json.NewEncoder(w).Encode(result)
+			
+			json.NewEncoder(w).Encode(response)
 
 		default:
 			w.WriteHeader(http.StatusBadRequest)

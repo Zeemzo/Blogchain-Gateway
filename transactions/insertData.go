@@ -75,7 +75,7 @@ func (cd *ConcreteInsertData) InsertDataHash() model.InsertDataResponse {
 
 	response.Error.Code = http.StatusOK
 	response.Error.Message = "Transaction performed in the blockchain."
-	response.TDPID = resp.Hash
+	response.TXNID = resp.Hash
 
 	return response
 

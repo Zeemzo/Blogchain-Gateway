@@ -18,7 +18,7 @@ type Routes []Route
 var routes = Routes{
 	Route{
 		"CreateAccount",
-		"POST",
+		"GET",
 		"/createaccount",
 		handlers.CreateAccount,
 	},
